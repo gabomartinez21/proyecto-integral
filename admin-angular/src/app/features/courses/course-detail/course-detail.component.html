@@ -1,0 +1,65 @@
+<div class="container">
+  @if (course) {
+    <div class="detail-card">
+      <div class="detail-header">
+        <h2>{{ course.nombre }}</h2>
+        <span class="badge" [class.badge-active]="course.activo" [class.badge-inactive]="!course.activo">
+          {{ course.activo ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+
+      <div class="detail-grid">
+        <div class="info-group">
+          <label>Categoría</label>
+          <p>{{ course.categoria }}</p>
+        </div>
+        <div class="info-group">
+          <label>Docente</label>
+          <p>{{ course.docente }}</p>
+        </div>
+        <div class="info-group">
+          <label>Modalidad</label>
+          <p><span class="badge badge-{{ course.modalidad }}">{{ course.modalidad }}</span></p>
+        </div>
+        <div class="info-group">
+          <label>Duración</label>
+          <p>{{ course.duracionHoras }} horas</p>
+        </div>
+        <div class="info-group">
+          <label>Vacantes</label>
+          <p>{{ course.vacantes }}</p>
+        </div>
+        <div class="info-group">
+          <label>Costo</label>
+          <p>S/ {{ course.costo }}</p>
+        </div>
+        <div class="info-group">
+          <label>Fecha de Inicio</label>
+          <p>{{ course.fechaInicio | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <div class="info-group">
+          <label>ID</label>
+          <p>{{ course.id }}</p>
+        </div>
+      </div>
+
+      @if (course.descripcion) {
+        <div class="description">
+          <label>Descripción</label>
+          <p>{{ course.descripcion }}</p>
+        </div>
+      }
+
+      <div class="actions">
+        <a [routerLink]="['/courses/edit', course.id]" class="btn btn-edit">Editar</a>
+        <a routerLink="/courses" class="btn btn-secondary">Volver al Listado</a>
+      </div>
+    </div>
+  } @else {
+    <div class="not-found">
+      <h2>Curso no encontrado</h2>
+      <p>El curso que buscas no existe o fue eliminado.</p>
+      <a routerLink="/courses" class="btn btn-primary">Ver todos los cursos</a>
+    </div>
+  }
+</div>

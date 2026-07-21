@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="header-row">
+    <h2>Listado de Cursos</h2>
+    <a routerLink="/courses/new" class="btn btn-primary">Nuevo Curso</a>
+  </div>
+
+  @if (courses.length === 0) {
+    <div class="empty-state">
+      <p>No hay cursos registrados</p>
+    </div>
+  } @else {
+    <div class="table-responsive">
+      <table class="course-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Docente</th>
+            <th>Modalidad</th>
+            <th>Duración</th>
+            <th>Vacantes</th>
+            <th>Costo</th>
+            <th>Fecha Inicio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (course of courses; track course.id) {
+            <tr>
+              <td><strong>{{ course.nombre }}</strong></td>
+              <td>{{ course.categoria }}</td>
+              <td>{{ course.docente }}</td>
+              <td>
+                <span class="badge badge-{{ course.modalidad }}">{{ course.modalidad }}</span>
+              </td>
+              <td>{{ course.duracionHoras }} hrs</td>
+              <td>{{ course.vacantes }}</td>
+              <td>S/ {{ course.costo }}</td>
+              <td>{{ course.fechaInicio | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [class.badge-active]="course.activo" [class.badge-inactive]="!course.activo">
+                  {{ course.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="actions">
+                <a [routerLink]="['/courses', course.id]" class="btn btn-sm btn-view">Ver</a>
+                <a [routerLink]="['/courses/edit', course.id]" class="btn btn-sm btn-edit">Editar</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
