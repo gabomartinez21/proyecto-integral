@@ -110,33 +110,27 @@ export class CourseService {
     }
   ];
 
-  getCourses(): Course[] {
-    return [...this.courses];
-  }
+ getCourses(): Course[] {
+  return this.courses;
+}
 
-  getCourseById(id: string): Course | undefined {
-    return this.courses.find(c => c.id === id);
-  }
+getCourseById(id: string): Course | undefined {
+  return this.courses.find(course => course.id === id);
+}
 
   addCourse(course: Course): void {
     this.courses.push(course);
   }
 
-  updateCourse(id: string, course: Course): boolean {
+  updateCourse(id: string, course: Course): void {
     const index = this.courses.findIndex(c => c.id === id);
-    if (index >= 0) {
+
+    if(index !== -1){
       this.courses[index] = course;
-      return true;
     }
-    return false;
   }
 
-  deleteCourse(id: string): boolean {
-    const index = this.courses.findIndex(c => c.id === id);
-    if (index >= 0) {
-      this.courses.splice(index, 1);
-      return true;
-    }
-    return false;
+  deleteCourse(id: string): void {
+    this.courses = this.courses.filter(c => c.id !== id);
   }
 }
