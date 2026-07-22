@@ -1,5 +1,14 @@
 <div class="container">
-  @if (course) {
+  @if (loading) {
+    <div class="loading">
+      <p>Cargando curso...</p>
+    </div>
+  } @else if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <a routerLink="/courses" class="btn btn-primary">Volver al listado</a>
+    </div>
+  } @else if (course) {
     <div class="detail-card">
       <div class="detail-header">
         <h2>{{ course.nombre }}</h2>
@@ -52,6 +61,7 @@
 
       <div class="actions">
         <a [routerLink]="['/courses/edit', course.id]" class="btn btn-edit">Editar</a>
+        <button (click)="deleteCourse()" class="btn btn-delete">Eliminar</button>
         <a routerLink="/courses" class="btn btn-secondary">Volver al Listado</a>
       </div>
     </div>

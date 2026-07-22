@@ -7,7 +7,13 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"
   },
-  "keywords": ["node", "express", "mongodb", "jwt", "api"],
+  "keywords": [
+    "node",
+    "express",
+    "mongodb",
+    "jwt",
+    "api"
+  ],
   "author": "Equipo de desarrollo",
   "license": "ISC",
   "dependencies": {
@@ -16,6 +22,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
+    "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3"
   },

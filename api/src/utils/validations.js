@@ -29,19 +29,37 @@ exports.loginValidation = [
 ];
 
 exports.courseValidation = [
-  body('title')
+  body('nombre')
     .trim()
-    .notEmpty().withMessage('El título es requerido')
-    .isLength({ min: 3 }).withMessage('El título debe tener al menos 3 caracteres'),
-  body('description')
+    .notEmpty().withMessage('El nombre es requerido')
+    .isLength({ min: 3 }).withMessage('El nombre debe tener al menos 3 caracteres'),
+  body('categoria')
     .trim()
-    .notEmpty().withMessage('La descripción es requerida'),
-  body('teacher')
-    .notEmpty().withMessage('El docente es requerido')
-    .isMongoId().withMessage('ID de docente inválido'),
-  body('maxStudents')
+    .notEmpty().withMessage('La categoría es requerida'),
+  body('docente')
+    .trim()
+    .notEmpty().withMessage('El docente es requerido'),
+  body('modalidad')
+    .notEmpty().withMessage('La modalidad es requerida')
+    .isIn(['presencial', 'virtual', 'hibrido']).withMessage('Modalidad inválida'),
+  body('duracionHoras')
+    .notEmpty().withMessage('La duración es requerida')
+    .isInt({ min: 1 }).withMessage('La duración debe ser al menos 1 hora'),
+  body('vacantes')
+    .notEmpty().withMessage('Las vacantes son requeridas')
+    .isInt({ min: 1 }).withMessage('Debe haber al menos 1 vacante'),
+  body('costo')
+    .notEmpty().withMessage('El costo es requerido')
+    .isFloat({ min: 0 }).withMessage('El costo no puede ser negativo'),
+  body('fechaInicio')
+    .notEmpty().withMessage('La fecha de inicio es requerida')
+    .isISO8601().withMessage('Fecha inválida'),
+  body('descripcion')
     .optional()
-    .isInt({ min: 1 }).withMessage('Máximo de estudiantes debe ser un número positivo')
+    .trim(),
+  body('activo')
+    .optional()
+    .isBoolean().withMessage('El estado debe ser verdadero o falso')
 ];
 
 exports.enrollmentValidation = [
@@ -49,11 +67,5 @@ exports.enrollmentValidation = [
     .notEmpty()
     .withMessage('El curso es requerido')
     .isMongoId()
-    .withMessage('ID de curso inválido'),
-
-  body('student')
-    .notEmpty()
-    .withMessage('El estudiante es requerido')
-    .isMongoId()
-    .withMessage('ID del estudiante es inválido'),
+    .withMessage('ID de curso inválido')
 ];

@@ -2,11 +2,8 @@ const Course = require('../models/course.model');
 
 exports.getAll = async (req, res) => {
   try {
-    const courses = await Course.find().populate('teacher', 'name email').select('-__v');
-    res.json({
-      count: courses.length,
-      courses
-    });
+    const courses = await Course.find().select('-__v');
+    res.json(courses);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener cursos', error: error.message });
   }
@@ -14,9 +11,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id)
-      .populate('teacher', 'name email')
-      .select('-__v');
+    const course = await Course.findById(req.params.id).select('-__v');
     if (!course) {
       return res.status(404).json({ message: 'Curso no encontrado' });
     }
@@ -28,15 +23,33 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { title, description, teacher, maxStudents } = req.body;
+    const {
+      nombre,
+      descripcion,
+      categoria,
+      docente,
+      modalidad,
+      duracionHoras,
+      vacantes,
+      costo,
+      fechaInicio,
+      activo
+    } = req.body;
 
-    const course = await Course.create({ title, description, teacher, maxStudents });
-    const populatedCourse = await Course.findById(course._id).populate('teacher', 'name email');
-
-    res.status(201).json({
-      message: 'Curso creado exitosamente',
-      course: populatedCourse
+    const course = await Course.create({
+      nombre,
+      descripcion,
+      categoria,
+      docente,
+      modalidad,
+      duracionHoras,
+      vacantes,
+      costo,
+      fechaInicio,
+      activo
     });
+
+    res.status(201).json(course);
   } catch (error) {
     res.status(500).json({ message: 'Error al crear curso', error: error.message });
   }
@@ -44,22 +57,41 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { title, description, maxStudents } = req.body;
+    const {
+      nombre,
+      descripcion,
+      categoria,
+      docente,
+      modalidad,
+      duracionHoras,
+      vacantes,
+      costo,
+      fechaInicio,
+      activo
+    } = req.body;
 
     const course = await Course.findByIdAndUpdate(
       req.params.id,
-      { title, description, maxStudents },
+      {
+        nombre,
+        descripcion,
+        categoria,
+        docente,
+        modalidad,
+        duracionHoras,
+        vacantes,
+        costo,
+        fechaInicio,
+        activo
+      },
       { new: true, runValidators: true }
-    ).populate('teacher', 'name email');
+    );
 
     if (!course) {
       return res.status(404).json({ message: 'Curso no encontrado' });
     }
 
-    res.json({
-      message: 'Curso actualizado exitosamente',
-      course
-    });
+    res.json(course);
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar curso', error: error.message });
   }

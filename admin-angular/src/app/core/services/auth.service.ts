@@ -25,6 +25,10 @@ logout(){
 localStorage.removeItem('token');
 }
 
+setToken(token: string) {
+localStorage.setItem('token', token);
+}
+
 getToken(){
 return localStorage.getItem('token');
 }

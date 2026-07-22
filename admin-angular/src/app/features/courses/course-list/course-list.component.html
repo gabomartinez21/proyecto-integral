@@ -4,7 +4,16 @@
     <a routerLink="/courses/new" class="btn btn-primary">Nuevo Curso</a>
   </div>
 
-  @if (courses.length === 0) {
+  @if (loading) {
+    <div class="loading">
+      <p>Cargando cursos...</p>
+    </div>
+  } @else if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="loadCourses()" class="btn btn-primary">Reintentar</button>
+    </div>
+  } @else if (courses.length === 0) {
     <div class="empty-state">
       <p>No hay cursos registrados</p>
     </div>
@@ -26,7 +35,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (course of courses; track course.id) {
+          @for (course of courses; track course._id) {
             <tr>
               <td><strong>{{ course.nombre }}</strong></td>
               <td>{{ course.categoria }}</td>
@@ -44,8 +53,9 @@
                 </span>
               </td>
               <td class="actions">
-                <a [routerLink]="['/courses', course.id]" class="btn btn-sm btn-view">Ver</a>
-                <a [routerLink]="['/courses/edit', course.id]" class="btn btn-sm btn-edit">Editar</a>
+                <a [routerLink]="['/courses', course._id]" class="btn btn-sm btn-view">Ver</a>
+                <a [routerLink]="['/courses/edit', course._id]" class="btn btn-sm btn-edit">Editar</a>
+                <button (click)="deleteCourse(course._id!)" class="btn btn-sm btn-delete">Eliminar</button>
               </td>
             </tr>
           }

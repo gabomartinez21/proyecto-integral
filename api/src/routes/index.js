@@ -21,9 +21,9 @@ module.exports = (app) => {
   app.get('/api/users', auth, userController.getAll);
   app.get('/api/users/:id', auth, userController.getById);
 
-  // Course routes
-  app.get('/api/courses', auth, courseController.getAll);
-  app.get('/api/courses/:id', auth, courseController.getById);
+  // Course routes (GET es publico para que Next.js pueda mostrar catalogo)
+  app.get('/api/courses', courseController.getAll);
+  app.get('/api/courses/:id', courseController.getById);
   app.post('/api/courses', auth, roleMiddleware('admin'), courseValidation, validate, courseController.create);
   app.put('/api/courses/:id', auth, roleMiddleware('admin'), courseValidation, validate, courseController.update);
   app.delete('/api/courses/:id', auth, roleMiddleware('admin'), courseController.delete);

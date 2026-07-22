@@ -103,6 +103,29 @@
   background: #95a5a6;
   color: white;
 }
+.btn-delete {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.btn-delete:hover {
+  background: #c0392b;
+}
+.loading {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.error-state {
+  text-align: center;
+  padding: 3rem;
+  background: #ffebee;
+  border-radius: 8px;
+  color: #c62828;
+}
 .btn-primary {
   background: #3498db;
   color: white;

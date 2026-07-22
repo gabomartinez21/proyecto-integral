@@ -1,30 +1,54 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  title: {
+  nombre: {
     type: String,
-    required: [true, 'El título del curso es requerido'],
+    required: [true, 'El nombre del curso es requerido'],
     trim: true,
-    minlength: [3, 'El título debe tener al menos 3 caracteres']
+    minlength: [3, 'El nombre debe tener al menos 3 caracteres']
   },
-  description: {
+  descripcion: {
     type: String,
-    required: [true, 'La descripción es requerida'],
+    trim: true,
+    default: ''
+  },
+  categoria: {
+    type: String,
+    required: [true, 'La categoría es requerida'],
     trim: true
   },
-  teacher: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, 'El docente es requerido']
+  docente: {
+    type: String,
+    required: [true, 'El docente es requerido'],
+    trim: true
   },
-  maxStudents: {
-    type: Number,
-    default: 30,
-    min: [1, 'Debe haber al menos 1 estudiante']
+  modalidad: {
+    type: String,
+    enum: ['presencial', 'virtual', 'hibrido'],
+    required: [true, 'La modalidad es requerida']
   },
-  enrolledStudents: {
+  duracionHoras: {
     type: Number,
-    default: 0
+    required: [true, 'La duración es requerida'],
+    min: [1, 'La duración debe ser al menos 1 hora']
+  },
+  vacantes: {
+    type: Number,
+    required: [true, 'Las vacantes son requeridas'],
+    min: [1, 'Debe haber al menos 1 vacante']
+  },
+  costo: {
+    type: Number,
+    required: [true, 'El costo es requerido'],
+    min: [0, 'El costo no puede ser negativo']
+  },
+  fechaInicio: {
+    type: Date,
+    required: [true, 'La fecha de inicio es requerida']
+  },
+  activo: {
+    type: Boolean,
+    default: true
   },
   createdAt: {
     type: Date,

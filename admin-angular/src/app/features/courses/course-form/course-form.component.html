@@ -1,96 +1,112 @@
 <div class="container">
   <h2>{{ isEdit ? 'Editar Curso' : 'Nuevo Curso' }}</h2>
 
-  <form (ngSubmit)="onSubmit()" #courseForm="ngForm" class="course-form">
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="nombre">Nombre del Curso *</label>
-        <input type="text" id="nombre" [(ngModel)]="course.nombre" name="nombre" required minlength="3" #nombre="ngModel">
-        @if (nombre.invalid && nombre.touched) {
-          <span class="error">El nombre debe tener al menos 3 caracteres</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="categoria">Categoría *</label>
-        <input type="text" id="categoria" [(ngModel)]="course.categoria" name="categoria" required #categoria="ngModel">
-        @if (categoria.invalid && categoria.touched) {
-          <span class="error">La categoría es requerida</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="docente">Docente *</label>
-        <input type="text" id="docente" [(ngModel)]="course.docente" name="docente" required #docente="ngModel">
-        @if (docente.invalid && docente.touched) {
-          <span class="error">El docente es requerido</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="modalidad">Modalidad *</label>
-        <select id="modalidad" [(ngModel)]="course.modalidad" name="modalidad" required #modalidad="ngModel">
-          <option value="">Seleccionar...</option>
-          <option value="presencial">Presencial</option>
-          <option value="virtual">Virtual</option>
-          <option value="hibrido">Híbrido</option>
-        </select>
-        @if (modalidad.invalid && modalidad.touched) {
-          <span class="error">La modalidad es requerida</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="duracionHoras">Duración (horas) *</label>
-        <input type="number" id="duracionHoras" [(ngModel)]="course.duracionHoras" name="duracionHoras" required min="1" #duracion="ngModel">
-        @if (duracion.invalid && duracion.touched) {
-          <span class="error">La duración debe ser mayor a 0</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="vacantes">Vacantes *</label>
-        <input type="number" id="vacantes" [(ngModel)]="course.vacantes" name="vacantes" required min="1" #vacantes="ngModel">
-        @if (vacantes.invalid && vacantes.touched) {
-          <span class="error">Las vacantes deben ser mayor a 0</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="costo">Costo (S/) *</label>
-        <input type="number" id="costo" [(ngModel)]="course.costo" name="costo" required min="0" #costo="ngModel">
-        @if (costo.invalid && costo.touched) {
-          <span class="error">El costo debe ser positivo</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="fechaInicio">Fecha de Inicio *</label>
-        <input type="date" id="fechaInicio" [(ngModel)]="course.fechaInicio" name="fechaInicio" required #fecha="ngModel">
-        @if (fecha.invalid && fecha.touched) {
-          <span class="error">La fecha es requerida</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label for="activo">Estado</label>
-        <select id="activo" [(ngModel)]="course.activo" name="activo">
-          <option [ngValue]="true">Activo</option>
-          <option [ngValue]="false">Inactivo</option>
-        </select>
-      </div>
-
-      <div class="form-group full-width">
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" [(ngModel)]="course.descripcion" name="descripcion" rows="4"></textarea>
-      </div>
+  @if (loadingCourse) {
+    <div class="loading">
+      <p>Cargando curso...</p>
     </div>
+  } @else {
+    @if (error) {
+      <div class="error-message">
+        <p>{{ error }}</p>
+      </div>
+    }
 
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="courseForm.invalid">
-        {{ isEdit ? 'Actualizar' : 'Crear' }} Curso
-      </button>
-      <a routerLink="/courses" class="btn btn-secondary">Cancelar</a>
-    </div>
-  </form>
+    <form (ngSubmit)="onSubmit()" #courseForm="ngForm" class="course-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="nombre">Nombre del Curso *</label>
+          <input type="text" id="nombre" [(ngModel)]="course.nombre" name="nombre" required minlength="3" #nombre="ngModel">
+          @if (nombre.invalid && nombre.touched) {
+            <span class="error">El nombre debe tener al menos 3 caracteres</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="categoria">Categoría *</label>
+          <input type="text" id="categoria" [(ngModel)]="course.categoria" name="categoria" required #categoria="ngModel">
+          @if (categoria.invalid && categoria.touched) {
+            <span class="error">La categoría es requerida</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="docente">Docente *</label>
+          <input type="text" id="docente" [(ngModel)]="course.docente" name="docente" required #docente="ngModel">
+          @if (docente.invalid && docente.touched) {
+            <span class="error">El docente es requerido</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="modalidad">Modalidad *</label>
+          <select id="modalidad" [(ngModel)]="course.modalidad" name="modalidad" required #modalidad="ngModel">
+            <option value="">Seleccionar...</option>
+            <option value="presencial">Presencial</option>
+            <option value="virtual">Virtual</option>
+            <option value="hibrido">Híbrido</option>
+          </select>
+          @if (modalidad.invalid && modalidad.touched) {
+            <span class="error">La modalidad es requerida</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="duracionHoras">Duración (horas) *</label>
+          <input type="number" id="duracionHoras" [(ngModel)]="course.duracionHoras" name="duracionHoras" required min="1" #duracion="ngModel">
+          @if (duracion.invalid && duracion.touched) {
+            <span class="error">La duración debe ser mayor a 0</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="vacantes">Vacantes *</label>
+          <input type="number" id="vacantes" [(ngModel)]="course.vacantes" name="vacantes" required min="1" #vacantes="ngModel">
+          @if (vacantes.invalid && vacantes.touched) {
+            <span class="error">Las vacantes deben ser mayor a 0</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="costo">Costo (S/) *</label>
+          <input type="number" id="costo" [(ngModel)]="course.costo" name="costo" required min="0" #costo="ngModel">
+          @if (costo.invalid && costo.touched) {
+            <span class="error">El costo debe ser positivo</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="fechaInicio">Fecha de Inicio *</label>
+          <input type="date" id="fechaInicio" [(ngModel)]="course.fechaInicio" name="fechaInicio" required #fecha="ngModel">
+          @if (fecha.invalid && fecha.touched) {
+            <span class="error">La fecha es requerida</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="activo">Estado</label>
+          <select id="activo" [(ngModel)]="course.activo" name="activo">
+            <option [ngValue]="true">Activo</option>
+            <option [ngValue]="false">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" [(ngModel)]="course.descripcion" name="descripcion" rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="courseForm.invalid || loading">
+          @if (loading) {
+            Guardando...
+          } @else {
+            {{ isEdit ? 'Actualizar' : 'Crear' }} Curso
+          }
+        </button>
+        <a routerLink="/courses" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  }
 </div>

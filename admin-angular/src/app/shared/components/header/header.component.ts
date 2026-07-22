@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink],
   template: `
     <header class="header">
       <div class="header-content">
-        <h1 class="logo">Gestión de Cursos</h1>
+        <h1 class="logo">Gestion de Cursos</h1>
         <nav class="nav">
           <a routerLink="/" class="nav-link">Inicio</a>
           <a routerLink="/courses" class="nav-link">Cursos</a>
-          <a routerLink="/courses/new" class="nav-link">Nuevo Curso</a>
+          <a routerLink="/courses/new" class="nav-link" *ngIf="isAuthenticated()">Nuevo Curso</a>
+          <a (click)="logout()" class="nav-link logout-btn" *ngIf="isAuthenticated()">Cerrar Sesion</a>
         </nav>
       </div>
     </header>
@@ -49,6 +52,23 @@ import { RouterLink } from '@angular/router';
     .nav-link:hover {
       background-color: rgba(255,255,255,0.1);
     }
+    .logout-btn {
+      cursor: pointer;
+    }
   `]
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}

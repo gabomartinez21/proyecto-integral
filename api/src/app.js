@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const connectDB = require('./config/db');
 const routes = require('./routes');
 
@@ -8,20 +9,29 @@ const app = express();
 
 connectDB();
 
+// Seguridad con Helmet
+app.use(helmet());
+
+// CORS configurado para produccion
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:4200', 'http://localhost:5173', 'http://localhost:3001'];
+
 app.use(cors({
-  origin: '*',
+  origin: process.env.NODE_ENV === 'production' ? allowedOrigins : '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10kb' })); // Limitar tamano de body
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 routes(app);
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'API Gestión de Cursos e Inscripciones',
+    message: 'API Gestion de Cursos e Inscripciones',
     version: '1.0.0',
     endpoints: {
       auth: '/api/auth',
