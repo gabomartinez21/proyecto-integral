@@ -9,6 +9,12 @@ Participantes del grupo:
 
 URL: https://youtu.be/Ye31BPhS_jk
 
+### URL's publicas
+
+admin-angular: https://admin-angular-omega.vercel.app/login
+portal-react: https://portal-react-two.vercel.app/login
+public-next: https://public-next-pi.vercel.app/
+
 ## Sistema de Gestión de Cursos
 
 Sistema integral para la gestión de cursos que consta de un panel administrativo en Angular y una API REST con Node.js/Express conectada a MongoDB.
