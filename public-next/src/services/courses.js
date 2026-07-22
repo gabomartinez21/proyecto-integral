@@ -23,12 +23,18 @@ function mapCourse(course) {
 
 export async function getPublicCourses() {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos timeout
+
     const response = await fetch(`${apiUrl}/courses`, {
-      next: { revalidate: 60 },
+      cache: 'no-store', // SSR dinamico
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error('API no disponible');
@@ -46,12 +52,18 @@ export async function getPublicCourses() {
 
 export async function getPublicCourse(id) {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const response = await fetch(`${apiUrl}/courses/${id}`, {
-      next: { revalidate: 60 },
+      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       return null;

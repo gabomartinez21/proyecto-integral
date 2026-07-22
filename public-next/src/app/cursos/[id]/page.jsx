@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getPublicCourse, getPublicCourses } from '../../../services/courses.js';
+import { getPublicCourse } from '../../../services/courses.js';
 
-export async function generateStaticParams() {
-  const courses = await getPublicCourses();
-  return courses.map((course) => ({ id: course.id }));
-}
+// Forzar renderizado dinámico (SSR)
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
-  const course = await getPublicCourse(params.id);
+  const { id } = await params;
+  const course = await getPublicCourse(id);
 
   if (!course) {
     return { title: 'Curso no encontrado' };
@@ -21,7 +20,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CourseDetailPage({ params }) {
-  const course = await getPublicCourse(params.id);
+  const { id } = await params;
+  const course = await getPublicCourse(id);
 
   if (!course) {
     notFound();

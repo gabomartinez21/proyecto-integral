@@ -1,7 +1,8 @@
 import { CourseStrip } from '../../components/CourseStrip.jsx';
 import { getPublicCourses } from '../../services/courses.js';
 
-export const revalidate = 60;
+// Forzar renderizado dinámico (SSR) en lugar de estático
+export const dynamic = 'force-dynamic';
 
 export default async function CoursesPage() {
   const courses = await getPublicCourses();

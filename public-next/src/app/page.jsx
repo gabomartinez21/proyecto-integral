@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { CourseStrip } from '../components/CourseStrip.jsx';
 import { getPublicCourses } from '../services/courses.js';
 
+// Forzar renderizado dinámico (SSR)
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const courses = await getPublicCourses();
 
