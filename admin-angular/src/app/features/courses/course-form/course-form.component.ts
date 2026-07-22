@@ -8,17 +8,24 @@ import { Course, Modalidad } from '../../../shared/models/course.model';
 @Component({
   selector: 'app-course-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink
+  ],
   templateUrl: './course-form.component.html',
-  styleUrl:'./course-form.css'
+  styleUrl: './course-form.css'
 })
 export class CourseFormComponent {
+
   private courseService = inject(CourseService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   isEdit = false;
+
   course: Course = this.emptyCourse();
+
 
   private emptyCourse(): Course {
     return {
@@ -26,7 +33,7 @@ export class CourseFormComponent {
       nombre: '',
       categoria: '',
       docente: '',
-      modalidad: 'presencial' as Modalidad,
+      modalidad: 'presencial',
       duracionHoras: 0,
       vacantes: 0,
       costo: 0,
@@ -36,26 +43,40 @@ export class CourseFormComponent {
     };
   }
 
-  ngOnInit() {
+
+  ngOnInit(): void {
+
     const id = this.route.snapshot.paramMap.get('id');
+
     if (id) {
       this.isEdit = true;
-      const existing = this.courseService.getCourseById(id);
-      if (existing) {
-        this.course = { ...existing };
+      const existingCourse = this.courseService.getCourseById(id);
+      if (existingCourse) {
+        this.course = { ...existingCourse };
       } else {
         this.router.navigate(['/courses']);
       }
     }
   }
 
-  onSubmit() {
+
+  onSubmit(): void {
     if (this.isEdit) {
-      this.courseService.updateCourse(this.course.id, this.course);
+      this.courseService.updateCourse(
+        this.course.id,
+        this.course
+      );
     } else {
       this.course.id = Date.now().toString();
       this.courseService.addCourse(this.course);
     }
+
     this.router.navigate(['/courses']);
   }
+
+
+  cancel(): void {
+    this.router.navigate(['/courses']);
+  }
+
 }
