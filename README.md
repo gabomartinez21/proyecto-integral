@@ -5,6 +5,10 @@ Participantes del grupo:
 - Gabriel Alejandro Martinez Labrador - 03475797@mail.isil.pe
 - Kenneth Lee Quinto Orrihuela - 72497660@mail.isil.pe
 
+### Video Youtube
+
+URL: https://youtu.be/Ye31BPhS_jk
+
 ## Sistema de Gestión de Cursos
 
 Sistema integral para la gestión de cursos que consta de un panel administrativo en Angular y una API REST con Node.js/Express conectada a MongoDB.
